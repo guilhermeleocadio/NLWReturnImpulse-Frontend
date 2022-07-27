@@ -6,12 +6,14 @@ import { ScreenshotButton } from "../ScreenshotButton";
 
 interface FeedbackContentStepProps{
     feedbackType: FeedbackType;
-    onFeedbackTypeRestartRequest: () => void;
+    onFeedbackRestartRequest: () => void;
+    onFeedbackSent: () => void;
 }
 
 export function FeedbackContentStep({
     feedbackType, 
-    onFeedbackTypeRestartRequest}
+    onFeedbackRestartRequest,
+    onFeedbackSent}
     : FeedbackContentStepProps) {
  
     const [screenshot, setScreenshot] = useState<string | null>(null)  
@@ -27,6 +29,8 @@ export function FeedbackContentStep({
             screenshot,
             comment
         })
+
+        onFeedbackSent();
     }
 
     return(
@@ -35,7 +39,7 @@ export function FeedbackContentStep({
                 <button 
                     type="button" 
                     className="top-5 left-5 absolute text-zinc-400 hover:text-zinc-100"
-                    onClick={onFeedbackTypeRestartRequest}
+                    onClick={onFeedbackRestartRequest}
                     >
                         <ArrowLeft weight="bold" className="w-4 h-4" />
                 </button>
@@ -63,7 +67,8 @@ export function FeedbackContentStep({
                     
                     <button 
                         type="submit"
-                        className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors"
+                        disabled={comment.length === 0}
+                        className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
                     >
                         Enviar feedback
                     </button>
